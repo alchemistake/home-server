@@ -5,4 +5,4 @@ docker run -d -p 80:8000 -p 443:9443 --name portainer \
     --privileged \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v portainer_data:/data \
-    portainer/portainer-ce:2.9.3
+    portainer/portainer-ce:latest
