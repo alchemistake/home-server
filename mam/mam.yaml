@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+    transmission-openvpn:
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - '/root/mam/data:/data'
+            - '/root/books:/data/completed'
+            - '/root/mam/config:/config'
+        environment:
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=turkey
+            - LOCAL_NETWORK=192.168.0.0/16
+            - MAM_SESSION=$MAM_SESSION
+            - OPENVPN_USERNAME=$OPENVPN_USERNAME
+            - OPENVPN_PASSWORD=$OPENVPN_PASSWORD
+            - TRANSMISSION_WEB_UI=flood-for-transmission
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        ports:
+            - '9092:9091'
+        image: haugene/transmission-openvpn
