@@ -10,5 +10,10 @@ services:
       - /root:/data
       - /root/filebrowser:/config
     environment:
-      - FB_BASEURL=/
+      - FB_BASEURL=/files
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.filebrowser.rule=PathPrefix(`/files`)"
+      - "traefik.http.routers.filebrowser.entrypoints=web"
+      - "traefik.http.services.filebrowser-filebrowser.loadbalancer.server.port=8080"
