@@ -22,3 +22,4 @@ services:
         ports:
             - '9092:9091'
         image: haugene/transmission-openvpn
+        restart: unless-stopped
