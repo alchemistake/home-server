@@ -1,0 +1,17 @@
+---
+version: "3.3"
+services:
+  homer:
+    image: b4bz/homer
+    container_name: homer
+    volumes:
+      - /root/homer/:/www/assets
+    user: "${UID}:${GID}"
+    restart: unless-stopped
+    environment:
+      - INIT_ASSETS=1 # default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homer.rule=Host(`www.arceus.box`) || Host(`arceus.box`)"
+      - "traefik.http.routers.homer.entrypoints=web"
+      - "traefik.http.services.homer.loadbalancer.server.port=8080"
