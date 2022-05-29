@@ -4,16 +4,14 @@ services:
   filebrowser:
     image: hurlenko/filebrowser
     user: "${UID}:${GID}"
-    ports:
-      - 8081:8080
     volumes:
       - /root:/data
       - /root/filebrowser:/config
     environment:
-      - FB_BASEURL=/files
+      - FB_BASEURL=/
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.filebrowser.rule=PathPrefix(`/files`)"
+      - "traefik.http.routers.filebrowser.rule=Host(`files.arceus.box`)"
       - "traefik.http.routers.filebrowser.entrypoints=web"
       - "traefik.http.services.filebrowser-filebrowser.loadbalancer.server.port=8080"

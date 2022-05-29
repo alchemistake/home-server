@@ -14,3 +14,8 @@ services:
       - /root/plex/tv:/tv
       - /root/plex/movies:/movies
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.plex.rule=Host(`plex.arceus.box`)"
+      - "traefik.http.routers.plex.entrypoints=web"
+      - "traefik.http.services.plex-plex.loadbalancer.server.port=32400"

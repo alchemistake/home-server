@@ -20,19 +20,10 @@ services:
             driver: json-file
             options:
                 max-size: 10m
-        ports:
-            - "9092:9091"
         image: haugene/transmission-openvpn
         restart: unless-stopped
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.mam.rule=PathPrefix(`/mam`)"
+            - "traefik.http.routers.mam.rule=Host(`mam.arceus.box`)"
             - "traefik.http.routers.mam.entrypoints=web"
             - "traefik.http.services.transmission-openvpn-mam.loadbalancer.server.port=9091"
-            - "traefik.http.middlewares.mam-path.replacepathregex.regex=^/mam/(.*)"
-            - "traefik.http.middlewares.mam-path.replacepathregex.replacement=/transmission/$$1"
-            - "traefik.http.middlewares.mam-redir.redirectregex.regex=^(.*)\\/mam\\/?$$"
-            - "traefik.http.middlewares.mam-redir.redirectregex.replacement=$${1}/mam/web/"
-            - "traefik.http.middlewares.mam-redir.redirectregex.permanent=true"
-            - "traefik.http.middlewares.mam-chain.chain.middlewares=mam-redir,mam-path"
-            - "traefik.http.routers.mam.middlewares=mam-chain@docker"
