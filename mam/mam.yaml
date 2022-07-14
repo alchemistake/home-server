@@ -16,11 +16,12 @@ services:
             - OPENVPN_USERNAME=$OPENVPN_USERNAME
             - OPENVPN_PASSWORD=$OPENVPN_PASSWORD
             - TRANSMISSION_WEB_UI=flood-for-transmission
+            - CREATE_TUN_DEVICE=true
         logging:
             driver: json-file
             options:
                 max-size: 10m
-        image: haugene/transmission-openvpn
+        image: haugene/transmission-openvpn:dev
         restart: unless-stopped
         labels:
             - "traefik.enable=true"
