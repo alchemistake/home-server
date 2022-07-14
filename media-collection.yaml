@@ -1,0 +1,84 @@
+version: "3.3"
+networks:
+    media-collection:
+services:
+    transmission:
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - "/root/transmission/data:/data"
+            - "/root/transmission/config:/config"
+        environment:
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=turkey
+            - LOCAL_NETWORK=192.168.0.0/16
+            - OPENVPN_USERNAME=$OPENVPN_USERNAME
+            - OPENVPN_PASSWORD=$OPENVPN_PASSWORD
+            - TRANSMISSION_WEB_UI=flood-for-transmission
+            - CREATE_TUN_DEVICE=true
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        image: haugene/transmission-openvpn:dev
+        restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.transmission.rule=Host(`transmission.arceus.box`)"
+            - "traefik.http.routers.transmission.entrypoints=web"
+            - "traefik.http.services.transmission.loadbalancer.server.port=9091"
+        networks:
+            - media-collection
+    jackett:
+        volumes:
+            - "/root/jackett/configs/jackett:/config"
+            - "/root/jackett/downloads/jackett:/downloads"
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Oslo
+        image: lscr.io/linuxserver/jackett:latest
+        restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.jackett.rule=Host(`jackett.arceus.box`)"
+            - "traefik.http.routers.jackett.entrypoints=web"
+            - "traefik.http.services.jackett.loadbalancer.server.port=9117"
+        networks:
+            - media-collection
+    sonarr:
+        volumes:
+            - "/root/sonarr/configs/sonarr:/config"
+            - "/root/plex/tv:/tv"
+            - "/root/transmission/data/downloads:/downloads"
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Oslo
+        image: lscr.io/linuxserver/sonarr:latest
+        restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.sonarr.rule=Host(`sonarr.arceus.box`)"
+            - "traefik.http.routers.sonarr.entrypoints=web"
+            - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+        networks:
+            - media-collection
+    radarr:
+        volumes:
+            - "/root/radarr/configs/radarr:/config"
+            - "/root/plex/movies:/movies"
+            - "/root/transmission/data/downloads:/downloads"
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/Oslo
+        image: lscr.io/linuxserver/radarr:latest
+        restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.radarr.rule=Host(`radarr.arceus.box`)"
+            - "traefik.http.routers.radarr.entrypoints=web"
+            - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+        networks:
+            - media-collection
