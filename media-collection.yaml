@@ -16,6 +16,7 @@ services:
             - OPENVPN_PASSWORD=$OPENVPN_PASSWORD
             - TRANSMISSION_WEB_UI=flood-for-transmission
             - CREATE_TUN_DEVICE=true
+            - TZ=Europe/Oslo
         logging:
             driver: json-file
             options:
@@ -50,10 +51,10 @@ services:
         volumes:
             - "/root/sonarr/configs/sonarr:/config"
             - "/root/plex/tv:/tv"
-            - "/root/transmission/data/downloads:/downloads"
+            - "/root/transmission/data/completed:/data/completed"
         environment:
-            - PUID=1000
-            - PGID=1000
+            - PUID=0
+            - PGID=0
             - TZ=Europe/Oslo
         image: lscr.io/linuxserver/sonarr:latest
         restart: unless-stopped
@@ -68,10 +69,10 @@ services:
         volumes:
             - "/root/radarr/configs/radarr:/config"
             - "/root/plex/movies:/movies"
-            - "/root/transmission/data/downloads:/downloads"
+            - "/root/transmission/data/completed:/data/completed"
         environment:
-            - PUID=1000
-            - PGID=1000
+            - PUID=0
+            - PGID=0
             - TZ=Europe/Oslo
         image: lscr.io/linuxserver/radarr:latest
         restart: unless-stopped
