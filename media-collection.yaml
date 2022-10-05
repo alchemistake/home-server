@@ -3,10 +3,11 @@ networks:
     media-collection:
 services:
     transmission:
+        container_name: transmission
         cap_add:
             - NET_ADMIN
         volumes:
-            - "/root/transmission/data:/data"
+            - "/media/data/transmission/data:/data"
             - "/root/transmission/config:/config"
         environment:
             - OPENVPN_PROVIDER=PIA
@@ -31,9 +32,10 @@ services:
         networks:
             - media-collection
     jackett:
+        container_name: jackett
         volumes:
             - "/root/jackett/configs/jackett:/config"
-            - "/root/jackett/downloads/jackett:/downloads"
+            - "/media/data/jackett/downloads/jackett:/downloads"
         environment:
             - PUID=1000
             - PGID=1000
@@ -48,10 +50,11 @@ services:
         networks:
             - media-collection
     sonarr:
+        container_name: sonarr
         volumes:
             - "/root/sonarr/configs/sonarr:/config"
-            - "/root/plex/tv:/tv"
-            - "/root/transmission/data/completed:/data/completed"
+            - "/media/data/plex/tv:/tv"
+            - "/media/data/transmission/data/completed:/data/completed"
         environment:
             - PUID=0
             - PGID=0
@@ -66,10 +69,11 @@ services:
         networks:
             - media-collection
     radarr:
+        container_name: radarr
         volumes:
             - "/root/radarr/configs/radarr:/config"
-            - "/root/plex/movies:/movies"
-            - "/root/transmission/data/completed:/data/completed"
+            - "/media/data/plex/movies:/movies"
+            - "/media/data/transmission/data/completed:/data/completed"
         environment:
             - PUID=0
             - PGID=0
@@ -83,3 +87,20 @@ services:
             - "traefik.http.services.radarr.loadbalancer.server.port=7878"
         networks:
             - media-collection
+    bazarr:
+        container_name: bazarr
+        image: lscr.io/linuxserver/bazarr:latest
+        environment:
+            - PUID=0
+            - PGID=0
+            - TZ=Europe/London
+        volumes:
+            - "/root/bazarr/configs/bazarr:/config"
+            - "/media/data/plex/movies:/movies"
+            - "/media/data/plex/tv:/tv"
+        restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.bazarr.rule=Host(`bazarr.arceus.box`)"
+            - "traefik.http.routers.bazarr.entrypoints=web"
+            - "traefik.http.services.bazarr.loadbalancer.server.port=6767"

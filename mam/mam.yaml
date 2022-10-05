@@ -4,8 +4,8 @@ services:
         cap_add:
             - NET_ADMIN
         volumes:
-            - "/root/mam/data:/data"
-            - "/root/books:/data/completed"
+            - "/media/data/mam/data:/data"
+            - "/media/data/books:/data/completed"
             - "/root/mam/config:/config"
             - "/root/mam/scripts:/scripts"
         environment:

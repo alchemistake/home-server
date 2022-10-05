@@ -11,8 +11,8 @@ services:
       - VERSION=docker
     volumes:
       - /root/plex/config:/config
-      - /root/plex/tv:/tv
-      - /root/plex/movies:/movies
+      - /media/data/plex/tv:/tv
+      - /media/data/plex/movies:/movies
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

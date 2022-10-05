@@ -5,7 +5,7 @@ services:
     image: hurlenko/filebrowser
     user: "${UID}:${GID}"
     volumes:
-      - /root:/data
+      - /media/data:/data
       - /root/filebrowser:/config
     environment:
       - FB_BASEURL=/

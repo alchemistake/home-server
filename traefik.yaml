@@ -11,9 +11,9 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--pilot.token=$PILOT_TOKEN"
-      - "--experimental.plugins.traefik-ondemand-plugin.modulename=github.com/acouvreur/traefik-ondemand-plugin"
-      - "--experimental.plugins.traefik-ondemand-plugin.version=v1.2.0"
+      # - "--pilot.token=$PILOT_TOKEN"
+      # - "--experimental.plugins.traefik-ondemand-plugin.modulename=github.com/acouvreur/traefik-ondemand-plugin"
+      # - "--experimental.plugins.traefik-ondemand-plugin.version=v1.2.0"
     ports:
       - "80:80"
       - "443:443"
