@@ -72,7 +72,6 @@ services:
     icon: "fas fa-cloud"
     items:
       - name: "Plex"
-        logo: "assets/tools/plex.png"
         # subtitle: "Plex"
         # tag: "app"
         url: "http://plex.arceus.box"
@@ -80,9 +79,11 @@ services:
     icon: "fas fa-server"
     items:
       - name: "Traefik"
-        logo: "assets/tools/traefik.png"
         # tag: "app"
         url: "http://traefik.arceus.box"
+      - name: "Uptime Kuma"
+        # tag: "app"
+        url: "http://kuma.arceus.box"
   - name: "Media"
     icon: "fas fa-photo-film"
     items:

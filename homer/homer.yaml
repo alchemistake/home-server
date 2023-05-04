@@ -5,7 +5,7 @@ services:
     image: b4bz/homer
     container_name: homer
     volumes:
-      - /root/homer/:/www/assets
+      - /media/data/homer:/www/assets
     user: "${UID}:${GID}"
     restart: unless-stopped
     environment:
