@@ -4,6 +4,7 @@ services:
     container_name: uptime-kuma
     volumes:
     - /media/data/kuma:/app/data
+    - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped
     labels:
     - "traefik.enable=true"
